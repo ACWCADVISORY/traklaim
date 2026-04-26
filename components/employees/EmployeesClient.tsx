@@ -334,7 +334,7 @@ function TimeLogForm({ employeeId, companyId, projects, onSaved, onCancel }: {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const defaultWeek = getMondayOfWeek(new Date()).toISOString().split('T')[0]
+  const defaultWeek = getMondayOfWeek(new Date())
   const activeProjects = projects.filter(p => p.status === 'Active')
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {

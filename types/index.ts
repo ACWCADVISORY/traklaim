@@ -6,16 +6,15 @@ export interface Profile {
   full_name: string | null
   role: UserRole
   company_id: string | null
-  employee_id: string | null // linked employee record if role = 'employee'
+  employee_id: string | null
   created_at: string
 }
 
 export interface Company {
   id: string
   name: string
-  fiscal_year_end: string | null
-  cra_business_number: string | null
   created_at: string
+  updated_at: string
 }
 
 export type ProjectStatus = 'Active' | 'Completed' | 'On Hold'
@@ -37,19 +36,17 @@ export interface Project {
   updated_at: string
 }
 
-export type EmploymentType = 'T4 Employee' | 'T4A Contractor'
+export type EmploymentType = 'Full-time' | 'Part-time' | 'Contract'
 
 export interface Employee {
   id: string
   company_id: string
-  name: string
+  full_name: string
   title: string | null
   employment_type: EmploymentType
   annual_salary: number | null
-  hourly_rate: number | null
-  sred_time_percentage: number | null // 0–100
-  is_specified_employee: boolean // >10% ownership
-  notes: string | null
+  sred_time_percentage: number | null
+  is_specified_employee: boolean
   created_at: string
   updated_at: string
 }
@@ -58,30 +55,38 @@ export interface EmployeeTimeLog {
   id: string
   company_id: string
   employee_id: string
-  week_start: string // ISO date of Monday
+  project_id: string
+  week_start: string
   sred_hours: number
-  standard_hours: number
+  total_hours: number | null
   technical_obstacle: string | null
   hypothesis_tested: string | null
-  uncertainty_description: string | null
   notes: string | null
   created_at: string
+  updated_at: string
 }
 
-export type ExpenseCategory = 'Materials' | 'Cloud & Computing' | 'Contractor Costs'
+export type ExpenseCategory =
+  | 'Contractor Costs'
+  | 'Materials & Supplies'
+  | 'Equipment'
+  | 'Software & Cloud'
+  | 'Travel & Field Work'
+  | 'Other'
 
 export interface Expense {
   id: string
   company_id: string
-  date: string
-  amount: number
-  vendor: string
-  category: ExpenseCategory
   project_id: string | null
-  sred_eligible_percentage: number // 0–100
-  notes: string | null
+  vendor: string
+  description: string | null
+  category: ExpenseCategory
+  amount: number
+  date: string
+  sred_eligible_percentage: number
   receipt_url: string | null
-  contractor_sred_hours: number | null // for Contractor Costs
+  contractor_sred_hours: number | null
+  notes: string | null
   created_at: string
   updated_at: string
 }
@@ -94,12 +99,10 @@ export interface AuditLog {
   action: string
   resource_type: string | null
   resource_id: string | null
-  resource_name: string | null
-  details: Record<string, unknown> | null
-  timestamp: string
+  detail: Record<string, unknown> | null
+  created_at: string
 }
 
-// Eligibility score types
 export interface ScoreCriterion {
   id: string
   label: string

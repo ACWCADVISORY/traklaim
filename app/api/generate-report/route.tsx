@@ -269,7 +269,7 @@ export async function POST(req: NextRequest) {
 
   const buffer = await renderToBuffer(doc)
 
-  await logAudit({ action: 'report.generated', resource_type: 'report', detail: { type } })
+  await logAudit({ action: 'report.generated', resource_type: 'report', details: { type } })
 
   return new NextResponse(buffer, {
     headers: {

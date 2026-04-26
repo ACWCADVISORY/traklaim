@@ -28,7 +28,7 @@ export async function logAudit(params: AuditParams): Promise<void> {
       resource_type: params.resource_type ?? null,
       resource_id: params.resource_id ?? null,
       resource_name: params.resource_name ?? null,
-      details: params.details ?? null,
+      detail: params.details ?? null,
     })
   } catch {
     // Silent — audit logging must never break the main flow

@@ -28,7 +28,7 @@ export async function addEmployee(data: EmployeeData): Promise<{ employee: Emplo
 
     if (error) return { error: error.message }
 
-    await logAudit({ action: 'employee.created', resource_type: 'employee', resource_id: employee.id, detail: { name: data.full_name } })
+    await logAudit({ action: 'employee.created', resource_type: 'employee', resource_id: employee.id, details: { name: data.full_name } })
     return { employee: employee as Employee }
   } catch (e: any) {
     return { error: e.message ?? 'Unknown error' }
@@ -50,7 +50,7 @@ export async function updateEmployee(id: string, data: Partial<EmployeeData>): P
 
     if (error) return { error: error.message }
 
-    await logAudit({ action: 'employee.updated', resource_type: 'employee', resource_id: id, detail: { name: data.full_name } })
+    await logAudit({ action: 'employee.updated', resource_type: 'employee', resource_id: id, details: { name: data.full_name } })
     return { employee: employee as Employee }
   } catch (e: any) {
     return { error: e.message ?? 'Unknown error' }
@@ -68,7 +68,7 @@ export async function deleteEmployee(id: string): Promise<{ success: true } | { 
     const { error } = await supabase.from('employees').delete().eq('id', id)
     if (error) return { error: error.message }
 
-    await logAudit({ action: 'employee.deleted', resource_type: 'employee', resource_id: id, detail: { name: (existing as any)?.full_name } })
+    await logAudit({ action: 'employee.deleted', resource_type: 'employee', resource_id: id, details: { name: (existing as any)?.full_name } })
     return { success: true }
   } catch (e: any) {
     return { error: e.message ?? 'Unknown error' }
@@ -101,7 +101,7 @@ export async function addTimeLog(data: TimeLogData): Promise<{ log: EmployeeTime
 
     if (error) return { error: error.message }
 
-    await logAudit({ action: 'timelog.created', resource_type: 'employee_time_log', resource_id: log.id, detail: { employee_id: data.employee_id, week_start: data.week_start, sred_hours: data.sred_hours } })
+    await logAudit({ action: 'timelog.created', resource_type: 'employee_time_log', resource_id: log.id, details: { employee_id: data.employee_id, week_start: data.week_start, sred_hours: data.sred_hours } })
     return { log: log as EmployeeTimeLog }
   } catch (e: any) {
     return { error: e.message ?? 'Unknown error' }

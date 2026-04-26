@@ -31,7 +31,7 @@ export async function addProject(data: ProjectData): Promise<{ project: Project 
 
     if (error) return { error: error.message }
 
-    await logAudit({ action: 'project.created', resource_type: 'project', resource_id: project.id, detail: { name: data.name } })
+    await logAudit({ action: 'project.created', resource_type: 'project', resource_id: project.id, details: { name: data.name } })
     return { project: project as Project }
   } catch (e: any) {
     return { error: e.message ?? 'Unknown error' }
@@ -53,7 +53,7 @@ export async function updateProject(id: string, data: Partial<ProjectData>): Pro
 
     if (error) return { error: error.message }
 
-    await logAudit({ action: 'project.updated', resource_type: 'project', resource_id: id, detail: { name: data.name } })
+    await logAudit({ action: 'project.updated', resource_type: 'project', resource_id: id, details: { name: data.name } })
     return { project: project as Project }
   } catch (e: any) {
     return { error: e.message ?? 'Unknown error' }
@@ -71,7 +71,7 @@ export async function deleteProject(id: string): Promise<{ success: true } | { e
     const { error } = await supabase.from('projects').delete().eq('id', id)
     if (error) return { error: error.message }
 
-    await logAudit({ action: 'project.deleted', resource_type: 'project', resource_id: id, detail: { name: (existing as any)?.name } })
+    await logAudit({ action: 'project.deleted', resource_type: 'project', resource_id: id, details: { name: (existing as any)?.name } })
     return { success: true }
   } catch (e: any) {
     return { error: e.message ?? 'Unknown error' }

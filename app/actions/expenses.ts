@@ -32,7 +32,7 @@ export async function addExpense(data: ExpenseData): Promise<{ expense: Expense 
 
     if (error) return { error: error.message }
 
-    await logAudit({ action: 'expense.created', resource_type: 'expense', resource_id: expense.id, detail: { vendor: data.vendor, amount: data.amount, category: data.category } })
+    await logAudit({ action: 'expense.created', resource_type: 'expense', resource_id: expense.id, details: { vendor: data.vendor, amount: data.amount, category: data.category } })
     return { expense: expense as Expense }
   } catch (e: any) {
     return { error: e.message ?? 'Unknown error' }
@@ -54,7 +54,7 @@ export async function updateExpense(id: string, data: Partial<ExpenseData>): Pro
 
     if (error) return { error: error.message }
 
-    await logAudit({ action: 'expense.updated', resource_type: 'expense', resource_id: id, detail: { vendor: data.vendor, amount: data.amount } })
+    await logAudit({ action: 'expense.updated', resource_type: 'expense', resource_id: id, details: { vendor: data.vendor, amount: data.amount } })
     return { expense: expense as Expense }
   } catch (e: any) {
     return { error: e.message ?? 'Unknown error' }
@@ -72,7 +72,7 @@ export async function deleteExpense(id: string): Promise<{ success: true } | { e
     const { error } = await supabase.from('expenses').delete().eq('id', id)
     if (error) return { error: error.message }
 
-    await logAudit({ action: 'expense.deleted', resource_type: 'expense', resource_id: id, detail: { vendor: (existing as any)?.vendor, amount: (existing as any)?.amount } })
+    await logAudit({ action: 'expense.deleted', resource_type: 'expense', resource_id: id, details: { vendor: (existing as any)?.vendor, amount: (existing as any)?.amount } })
     return { success: true }
   } catch (e: any) {
     return { error: e.message ?? 'Unknown error' }

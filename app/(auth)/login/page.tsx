@@ -17,8 +17,8 @@ export default function LoginPage() {
     setSuccess(null)
     const fd = new FormData(e.currentTarget)
     const result = mode === 'login' ? await signIn(fd) : await signUp(fd)
-    if (result && 'error' in result) setError(result.error)
-    if (result && 'success' in result) setSuccess(result.success)
+    if (result && 'error' in result) setError(result.error ?? 'An error occurred')
+    if (result && 'success' in result) setSuccess(result.success ?? 'Success')
     setLoading(false)
   }
 
